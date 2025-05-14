@@ -1,8 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using GastosControl.Infrastructure.Persistence;
+using GastosControl.Application.Interfaces;
 using GastosControl.Application.Services;
 using GastosControl.Domain.Interfaces;
+using GastosControl.Infrastructure.Persistence;
 using GastosControl.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace GastosControl
 {
@@ -23,6 +24,9 @@ namespace GastosControl
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
+
+            builder.Services.AddScoped<IMonetaryFundRepository, MonetaryFundRepository>();
+            builder.Services.AddScoped<IMonetaryFundService, MonetaryFundService>();
 
             builder.Services.AddSession();
 

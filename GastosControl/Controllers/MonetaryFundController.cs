@@ -1,33 +1,31 @@
-﻿using GastosControl.Domain.Entities;
-using GastosControl.Helpers;
-using GastosControl.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using GastosControl.Domain.Entities;
+using GastosControl.Infrastructure.Persistence;
 
-namespace GastosControl.Controllers
+namespace GastosControl
 {
-    [AuthorizeSession]
-    public class UserController : Controller
+    public class MonetaryFundController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public UserController(ApplicationDbContext context)
+        public MonetaryFundController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: User
+        // GET: MonetaryFund
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.MonetaryFunds.ToListAsync());
         }
 
-        // GET: User/Details/5
+        // GET: MonetaryFund/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +33,39 @@ namespace GastosControl.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var monetaryFund = await _context.MonetaryFunds
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (monetaryFund == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(monetaryFund);
         }
 
-        // GET: User/Create
+        // GET: MonetaryFund/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: MonetaryFund/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Identification,FirstName,LastName,Login,Password,BirthDate,Address,Email,Phone")] User user)
+        public async Task<IActionResult> Create([Bind("Id,UserId,Name,Description")] MonetaryFund monetaryFund)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(monetaryFund);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(monetaryFund);
         }
 
-        // GET: User/Edit/5
+        // GET: MonetaryFund/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +73,22 @@ namespace GastosControl.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var monetaryFund = await _context.MonetaryFunds.FindAsync(id);
+            if (monetaryFund == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(monetaryFund);
         }
 
-        // POST: User/Edit/5
+        // POST: MonetaryFund/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Identification,FirstName,LastName,Login,Password,BirthDate,Address,Email,Phone")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Name,Description")] MonetaryFund monetaryFund)
         {
-            if (id != user.Id)
+            if (id != monetaryFund.Id)
             {
                 return NotFound();
             }
@@ -99,12 +97,12 @@ namespace GastosControl.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(monetaryFund);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!MonetaryFundExists(monetaryFund.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +113,10 @@ namespace GastosControl.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(monetaryFund);
         }
 
-        // GET: User/Delete/5
+        // GET: MonetaryFund/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,34 +124,34 @@ namespace GastosControl.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var monetaryFund = await _context.MonetaryFunds
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (monetaryFund == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(monetaryFund);
         }
 
-        // POST: User/Delete/5
+        // POST: MonetaryFund/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var monetaryFund = await _context.MonetaryFunds.FindAsync(id);
+            if (monetaryFund != null)
             {
-                _context.Users.Remove(user);
+                _context.MonetaryFunds.Remove(monetaryFund);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool MonetaryFundExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.MonetaryFunds.Any(e => e.Id == id);
         }
     }
 }
