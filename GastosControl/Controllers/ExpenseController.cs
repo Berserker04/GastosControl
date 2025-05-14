@@ -50,33 +50,50 @@ namespace GastosControl.Controllers
         public async Task<IActionResult> Create(ExpenseFormViewModel model)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null) return RedirectToAction("Login", "Auth");
+            if (userId == null)
+                return RedirectToAction("Login", "Auth");
 
             if (!ModelState.IsValid)
             {
-                ViewBag.MonetaryFundId = new SelectList(_context.MonetaryFunds.Where(f => f.UserId == userId), "Id", "Name");
-                ViewBag.ExpenseTypes = new SelectList(_context.ExpenseTypes, "Id", "Name");
+                LoadSelectLists((int)userId);
                 return View(model);
             }
 
-            var header = new ExpenseHeader
+            try
             {
-                UserId = userId.Value,
-                Date = model.Date,
-                MonetaryFundId = model.MonetaryFundId,
-                CommerceName = model.CommerceName,
-                DocumentType = model.DocumentType,
-                Observation = model.Observation,
-            };
+                var header = new ExpenseHeader
+                {
+                    UserId = userId.Value,
+                    Date = model.Date,
+                    MonetaryFundId = model.MonetaryFundId,
+                    CommerceName = model.CommerceName,
+                    DocumentType = model.DocumentType,
+                    Observation = model.Observation
+                };
 
-            var details = model.Details.Select(d => new ExpenseDetail
+                var details = model.Details.Select(d => new ExpenseDetail
+                {
+                    ExpenseTypeId = d.ExpenseTypeId,
+                    Amount = d.Amount
+                }).ToList();
+
+                await _expenseService.AddAsync(header, details);
+
+                return RedirectToAction("Index");
+            }
+            catch (InvalidOperationException ex)
             {
-                ExpenseTypeId = d.ExpenseTypeId,
-                Amount = d.Amount
-            }).ToList();
+                ModelState.AddModelError(string.Empty, ex.Message);
 
-            await _expenseService.AddAsync(header, details);
-            return RedirectToAction("Index");
+                LoadSelectLists((int)userId);
+                return View(model);
+            }
+        }
+
+        private void LoadSelectLists(int userId)
+        {
+            ViewBag.MonetaryFundId = new SelectList(_context.MonetaryFunds.Where(f => f.UserId == userId), "Id", "Name");
+            ViewBag.ExpenseTypes = new SelectList(_context.ExpenseTypes, "Id", "Name");
         }
 
         public async Task<IActionResult> Details(int id)

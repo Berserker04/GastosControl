@@ -33,6 +33,7 @@ namespace GastosControl
 
             builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
             builder.Services.AddScoped<IExpenseService, ExpenseService>();
+            builder.Services.AddScoped<IExpenseQueries, ExpenseRepository>();
 
             builder.Services.AddSession();
 

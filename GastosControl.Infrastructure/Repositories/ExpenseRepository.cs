@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GastosControl.Infrastructure.Repositories
 {
-    public class ExpenseRepository : IExpenseRepository
+    public class ExpenseRepository : IExpenseRepository, IExpenseQueries
     {
         private readonly ApplicationDbContext _context;
 
@@ -64,5 +64,25 @@ namespace GastosControl.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<UserBudget?> GetUserBudgetAsync(int userId, int expenseTypeId, int month, int year)
+        {
+            return await _context.UserBudgets.FirstOrDefaultAsync(p =>
+                p.UserId == userId &&
+                p.ExpenseTypeId == expenseTypeId &&
+                p.Month == month &&
+                p.Year == year);
+        }
+
+        public async Task<decimal> GetExecutedAmountAsync(int userId, int expenseTypeId, int month, int year)
+        {
+            return await _context.ExpenseDetails
+                .Where(d => d.ExpenseTypeId == expenseTypeId &&
+                            d.Header.UserId == userId &&
+                            d.Header.Date.Month == month &&
+                            d.Header.Date.Year == year)
+                .SumAsync(d => d.Amount);
+        }
+
     }
 }
