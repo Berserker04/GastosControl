@@ -28,6 +28,9 @@ namespace GastosControl
             builder.Services.AddScoped<IMonetaryFundRepository, MonetaryFundRepository>();
             builder.Services.AddScoped<IMonetaryFundService, MonetaryFundService>();
 
+            builder.Services.AddScoped<IUserBudgetRepository, UserBudgetRepository>();
+            builder.Services.AddScoped<IUserBudgetService, UserBudgetService>();
+
             builder.Services.AddSession();
 
             var app = builder.Build();
