@@ -1,6 +1,7 @@
 ﻿using GastosControl.Domain.Entities;
 using GastosControl.Domain.Interfaces;
 using GastosControl.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
