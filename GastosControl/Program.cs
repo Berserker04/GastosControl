@@ -31,6 +31,9 @@ namespace GastosControl
             builder.Services.AddScoped<IUserBudgetRepository, UserBudgetRepository>();
             builder.Services.AddScoped<IUserBudgetService, UserBudgetService>();
 
+            builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+            builder.Services.AddScoped<IExpenseService, ExpenseService>();
+
             builder.Services.AddSession();
 
             var app = builder.Build();

@@ -12,5 +12,6 @@ namespace GastosControl.Domain.Entities
         public int HeaderId { get; set; }
         public int ExpenseTypeId { get; set; }
         public decimal Amount { get; set; }
+        public ExpenseHeader Header { get; set; } = null!;
     }
 }

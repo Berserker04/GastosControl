@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GastosControl.Domain.Entities;
+using GastosControl.Helpers;
+using GastosControl.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GastosControl.Domain.Entities;
-using GastosControl.Infrastructure.Persistence;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace GastosControl
+namespace GastosControl.Controllers
 {
+    [AuthorizeSession]
     public class UserBudgetController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -46,6 +48,8 @@ namespace GastosControl
         // GET: UserBudget/Create
         public IActionResult Create()
         {
+            ViewData["ExpenseTypeId"] = new SelectList(_context.ExpenseTypes, "Id", "Name");
+
             return View();
         }
 
@@ -54,8 +58,10 @@ namespace GastosControl
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,ExpenseTypeId,Month,Year,Amount")] UserBudget userBudget)
+        public async Task<IActionResult> Create([Bind("Id,ExpenseTypeId,Month,Year,Amount")] UserBudget userBudget)
         {
+            userBudget.UserId = (int)HttpContext.Session.GetInt32("UserId")!;
+
             if (ModelState.IsValid)
             {
                 _context.Add(userBudget);
@@ -78,6 +84,9 @@ namespace GastosControl
             {
                 return NotFound();
             }
+
+            ViewData["ExpenseTypeId"] = new SelectList(_context.ExpenseTypes, "Id", "Name");
+
             return View(userBudget);
         }
 
@@ -86,13 +95,13 @@ namespace GastosControl
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,ExpenseTypeId,Month,Year,Amount")] UserBudget userBudget)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ExpenseTypeId,Month,Year,Amount")] UserBudget userBudget)
         {
             if (id != userBudget.Id)
             {
                 return NotFound();
             }
-
+            userBudget.UserId = (int)HttpContext.Session.GetInt32("UserId")!;
             if (ModelState.IsValid)
             {
                 try

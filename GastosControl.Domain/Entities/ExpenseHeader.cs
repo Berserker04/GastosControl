@@ -15,5 +15,7 @@ namespace GastosControl.Domain.Entities
         public required string Observation { get; set; }
         public required string CommerceName { get; set; }
         public required string DocumentType { get; set; }
+
+        public List<ExpenseDetail> Details { get; set; } = new();
     }
 }

@@ -41,6 +41,11 @@ namespace GastosControl.Infrastructure.Persistence
             modelBuilder.Entity<UserBudget>()
                 .Property(p => p.Amount)
                 .HasPrecision(18, 2);
+
+            modelBuilder.Entity<ExpenseDetail>()
+                .HasOne(d => d.Header)
+                .WithMany(h => h.Details)
+                .HasForeignKey(d => d.HeaderId);
         }
     }
 }
