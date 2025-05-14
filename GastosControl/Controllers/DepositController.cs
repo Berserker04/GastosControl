@@ -1,9 +1,11 @@
-﻿using GastosControl.Domain.Entities;
+﻿using GastosControl.Application.Interfaces;
+using GastosControl.Domain.Entities;
 using GastosControl.Helpers;
 using GastosControl.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +17,12 @@ namespace GastosControl.Controllers
     public class DepositController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDepositService _depositService;
 
-        public DepositController(ApplicationDbContext context)
+        public DepositController(ApplicationDbContext context, IDepositService depositService)
         {
             _context = context;
+            _depositService = depositService;
         }
 
         // GET: Deposit
@@ -85,13 +89,20 @@ namespace GastosControl.Controllers
                 deposit.UserId = userId.Value;
                 deposit.Date = DateTime.Now;
 
-                _context.Add(deposit);
-                await _context.SaveChangesAsync();
+                await _depositService.AddAsync(deposit);
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.MonetaryFundId = new SelectList(
                 _context.MonetaryFunds.Where(f => f.UserId == userId), "Id", "Name", deposit.MonetaryFundId
             );
+            foreach (var modelState in ViewData.ModelState)
+            {
+                foreach (var error in modelState.Value.Errors)
+                {
+                    Console.WriteLine($"Error en '{modelState.Key}': {error.ErrorMessage}");
+                }
+            }
+
             return View(deposit);
         }
 

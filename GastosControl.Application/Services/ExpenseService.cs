@@ -48,7 +48,7 @@ namespace GastosControl.Application.Services
 
             if (duplicados.Any())
             {
-                throw new InvalidOperationException("No puedes registrar el mismo tipo de gasto más de una vez en los detalles.");
+                throw new InvalidOperationException("No puedes registrar el mismo tipo de gasto más de una vez en los detalles.\n");
             }
         }
         public async Task ValidateExceededBudget(ExpenseHeader header, List<ExpenseDetail> details)
@@ -72,9 +72,23 @@ namespace GastosControl.Application.Services
                     if (totalProyectado > presupuesto.Amount)
                     {
                         var exceso = totalProyectado - presupuesto.Amount;
-                        alertas.Add($"⚠️ Tipo de gasto '{detalle.ExpenseTypeId}' excede el presupuesto de {presupuesto.Amount}. Se excede por {exceso}");
+                        alertas.Add($"Tipo de gasto '{detalle.ExpenseTypeId}' excede el presupuesto de {presupuesto.Amount}. Se excede por {exceso}.\n");
                     }
                 }
+            }
+
+
+            var totalDelGasto = details.Sum(d => d.Amount);
+
+            var balance = await _queries.GetBalanceAsync(header.MonetaryFundId);
+            if (balance < 0)
+            {
+                alertas.Add("Fondo monetario no encontrado.\n");
+            }
+            else if (totalDelGasto > balance)
+            {
+                var diferencia = totalDelGasto - balance;
+                alertas.Add($"El total del gasto ({totalDelGasto}) excede el saldo disponible del fondo ({balance}). Faltan {diferencia}.\n");
             }
 
             if (alertas.Any())

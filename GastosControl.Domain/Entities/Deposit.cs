@@ -11,12 +11,10 @@ namespace GastosControl.Domain.Entities
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        [Required]
         public DateTime Date { get; set; }
         public int MonetaryFundId { get; set; }
         [Required]
-        [Range(1, double.MaxValue, ErrorMessage = "Debe ingresar un monto positivo.")]
         public decimal Amount { get; set; }
-        public MonetaryFund MonetaryFund { get; set; } = null!;
+        public MonetaryFund? MonetaryFund { get; set; } = null!;
     }
 }

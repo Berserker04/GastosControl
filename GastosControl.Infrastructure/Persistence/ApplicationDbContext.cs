@@ -46,6 +46,10 @@ namespace GastosControl.Infrastructure.Persistence
                 .HasOne(d => d.Header)
                 .WithMany(h => h.Details)
                 .HasForeignKey(d => d.HeaderId);
+
+            modelBuilder.Entity<MonetaryFund>()
+                .Property(m => m.Balance)
+                .HasPrecision(18, 2);
         }
     }
 }

@@ -2,6 +2,8 @@
 using GastosControl.Domain.Interfaces;
 using GastosControl.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.PortableExecutable;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GastosControl.Infrastructure.Repositories
 {
@@ -45,6 +47,15 @@ namespace GastosControl.Infrastructure.Repositories
                 }
 
                 await _context.SaveChangesAsync();
+
+                var totalExpense = details.Sum(d => d.Amount);
+                var fondo = await _context.MonetaryFunds.FindAsync(header.MonetaryFundId);
+                if (fondo != null)
+                {
+                    fondo.Balance -= totalExpense;
+                    await _context.SaveChangesAsync();
+                }
+
                 await transaction.CommitAsync();
             }
             catch
@@ -83,6 +94,16 @@ namespace GastosControl.Infrastructure.Repositories
                             d.Header.Date.Month == month &&
                             d.Header.Date.Year == year)
                 .SumAsync(d => d.Amount);
+        }
+
+        public async Task<decimal> GetBalanceAsync(int monetaryFundId)
+        {
+            var fondo = await _context.MonetaryFunds.FindAsync(monetaryFundId);
+            if (fondo is null)
+            {
+                return -1;
+            }
+            return fondo.Balance;
         }
 
     }

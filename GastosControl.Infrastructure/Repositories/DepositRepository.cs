@@ -1,6 +1,7 @@
 ﻿using GastosControl.Domain.Entities;
 using GastosControl.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.PortableExecutable;
 
 public class DepositRepository : IDepositRepository
 {
@@ -20,8 +21,27 @@ public class DepositRepository : IDepositRepository
 
     public async Task AddAsync(Deposit deposit)
     {
-        await _context.Deposits.AddAsync(deposit);
-        await _context.SaveChangesAsync();
+        using var transaction = await _context.Database.BeginTransactionAsync();
+
+        try
+        {
+            await _context.Deposits.AddAsync(deposit);
+            await _context.SaveChangesAsync();
+
+            var fondo = await _context.MonetaryFunds.FindAsync(deposit.MonetaryFundId);
+            if (fondo != null)
+            {
+                fondo.Balance += deposit.Amount;
+                await _context.SaveChangesAsync();
+            }
+
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     public async Task DeleteAsync(int id)
