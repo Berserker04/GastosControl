@@ -77,6 +77,7 @@ namespace GastosControl.Infrastructure.Repositories
         public async Task<decimal> GetExecutedAmountAsync(int userId, int expenseTypeId, int month, int year)
         {
             return await _context.ExpenseDetails
+                .Include(d => d.Header)
                 .Where(d => d.ExpenseTypeId == expenseTypeId &&
                             d.Header.UserId == userId &&
                             d.Header.Date.Month == month &&

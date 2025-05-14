@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GastosControl.Domain.Entities;
+using GastosControl.Helpers;
+using GastosControl.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GastosControl.Domain.Entities;
-using GastosControl.Infrastructure.Persistence;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GastosControl.Controllers
 {
+    [AuthorizeSession]
     public class DepositController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,8 +24,18 @@ namespace GastosControl.Controllers
         // GET: Deposit
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Deposits.ToListAsync());
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToAction("Login", "Auth");
+
+            var deposits = await _context.Deposits
+                .Include(d => d.MonetaryFund)
+                .Where(d => d.UserId == userId)
+                .ToListAsync();
+
+            return View(deposits);
         }
+
 
         // GET: Deposit/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -46,6 +58,14 @@ namespace GastosControl.Controllers
         // GET: Deposit/Create
         public IActionResult Create()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToAction("Login", "Auth");
+
+            ViewBag.MonetaryFundId = new SelectList(
+                _context.MonetaryFunds.Where(f => f.UserId == userId),
+                "Id", "Name"
+            );
             return View();
         }
 
@@ -54,65 +74,24 @@ namespace GastosControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,Date,MonetaryFundId,Amount")] Deposit deposit)
+        public async Task<IActionResult> Create([Bind("Id,MonetaryFundId,Amount")] Deposit deposit)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToAction("Login", "Auth");
+
             if (ModelState.IsValid)
             {
+                deposit.UserId = userId.Value;
+                deposit.Date = DateTime.Now;
+
                 _context.Add(deposit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(deposit);
-        }
-
-        // GET: Deposit/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var deposit = await _context.Deposits.FindAsync(id);
-            if (deposit == null)
-            {
-                return NotFound();
-            }
-            return View(deposit);
-        }
-
-        // POST: Deposit/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Date,MonetaryFundId,Amount")] Deposit deposit)
-        {
-            if (id != deposit.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(deposit);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DepositExists(deposit.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
+            ViewBag.MonetaryFundId = new SelectList(
+                _context.MonetaryFunds.Where(f => f.UserId == userId), "Id", "Name", deposit.MonetaryFundId
+            );
             return View(deposit);
         }
 

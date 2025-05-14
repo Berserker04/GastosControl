@@ -22,6 +22,8 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        @if (!string.IsNullOrEmpty(userName))
+                {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -35,7 +37,7 @@
                             <a class="nav-link text-dark" asp-controller="MonetaryFund" asp-action="Index">Fondos monetarios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="MonetaryFund" asp-action="Index">Presupuesto</a>
+                                <a class="nav-link text-dark" asp-controller="UserBudget" asp-action="Index">Presupuesto</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Expense" asp-action="Index">Gastos</a>
@@ -43,6 +45,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Deposit" asp-action="Index">Deposito</a>
                         </li>
+                        }
                     </ul>
                 </div>
                 @if (!string.IsNullOrEmpty(userName))

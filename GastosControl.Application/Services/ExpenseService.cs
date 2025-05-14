@@ -72,7 +72,7 @@ namespace GastosControl.Application.Services
                     if (totalProyectado > presupuesto.Amount)
                     {
                         var exceso = totalProyectado - presupuesto.Amount;
-                        alertas.Add($"⚠️ Tipo de gasto '{detalle.ExpenseTypeId}' excede el presupuesto de {presupuesto.Amount:C}. Se excede por {exceso:C}");
+                        alertas.Add($"⚠️ Tipo de gasto '{detalle.ExpenseTypeId}' excede el presupuesto de {presupuesto.Amount}. Se excede por {exceso}");
                     }
                 }
             }

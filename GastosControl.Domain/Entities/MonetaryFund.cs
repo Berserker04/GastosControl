@@ -12,5 +12,7 @@ namespace GastosControl.Domain.Entities
         public int UserId { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }
+
+        public decimal Balance { get; set; } = 0;
     }
 }

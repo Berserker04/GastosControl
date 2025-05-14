@@ -13,19 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+                Usuario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExpenseTypeId)
+                Tipo de gasto
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Month)
+                Fecha
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                Cantidad
             </th>
             <th></th>
         </tr>
@@ -40,13 +37,10 @@
                 @Html.DisplayFor(modelItem => item.ExpenseTypeId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Month)
+                @Html.DisplayFor(modelItem => item.Year)/@Html.DisplayFor(modelItem => item.Month)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+                @item.Amount.ToString("C")
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

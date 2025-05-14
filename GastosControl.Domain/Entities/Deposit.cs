@@ -17,5 +17,6 @@ namespace GastosControl.Domain.Entities
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Debe ingresar un monto positivo.")]
         public decimal Amount { get; set; }
+        public MonetaryFund MonetaryFund { get; set; } = null!;
     }
 }

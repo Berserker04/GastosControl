@@ -58,9 +58,13 @@ namespace GastosControl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ExpenseTypeId,Month,Year,Amount")] UserBudget userBudget)
+        public async Task<IActionResult> Create([Bind("Id,ExpenseTypeId,Amount")] UserBudget userBudget, string BudgetMonth)
         {
             userBudget.UserId = (int)HttpContext.Session.GetInt32("UserId")!;
+
+            var date = BudgetMonth.Split('-');
+            userBudget.Year = int.Parse(date[0]);
+            userBudget.Month = int.Parse(date[1]);
 
             if (ModelState.IsValid)
             {
