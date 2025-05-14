@@ -12,8 +12,8 @@ namespace GastosControl.Domain.Entities
         public int UserId { get; set; }
         public DateTime Date { get; set; }
         public int MonetaryFundId { get; set; }
-        public string Observation { get; set; }
-        public string CommerceName { get; set; }
-        public string DocumentType { get; set; }
+        public required string Observation { get; set; }
+        public required string CommerceName { get; set; }
+        public required string DocumentType { get; set; }
     }
 }

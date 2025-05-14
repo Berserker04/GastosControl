@@ -24,5 +24,23 @@ namespace GastosControl.Infrastructure.Persistence
         public DbSet<ExpenseHeader> ExpenseHeaders { get; set; }
         public DbSet<ExpenseDetail> ExpenseDetails { get; set; }
         public DbSet<Deposit> Deposits { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configurar precisión para campos decimal
+            modelBuilder.Entity<Deposit>()
+                .Property(p => p.Amount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<ExpenseDetail>()
+                .Property(p => p.Amount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<UserBudget>()
+                .Property(p => p.Amount)
+                .HasPrecision(18, 2);
+        }
     }
 }
