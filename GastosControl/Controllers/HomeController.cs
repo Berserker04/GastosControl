@@ -15,6 +15,9 @@ namespace GastosControl.Controllers
 
         public IActionResult Index()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToAction("Login", "Auth");
             return View();
         }
 

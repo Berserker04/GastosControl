@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GastosControl.Domain.Entities;
+using GastosControl.Helpers;
+using GastosControl.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GastosControl.Domain.Entities;
-using GastosControl.Infrastructure.Persistence;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace GastosControl
+namespace GastosControl.Controllers
 {
+    //[AuthorizeSession]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;
