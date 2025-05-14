@@ -12,4 +12,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GastosControl.Domain\GastosControl.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

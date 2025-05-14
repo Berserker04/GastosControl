@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GastosControl.Domain.Entities
+{
+    public class ExpenseType
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public string Code => "ET" + Id.ToString("D4"); // Código automático
+    }
+}

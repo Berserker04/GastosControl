@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36109.1 d17.14
+VisualStudioVersion = 17.14.36109.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GastosControl", "GastosControl.csproj", "{36302972-B032-495E-8949-69D36A08C7DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GastosControl.Domain", "..\GastosControl.Domain\GastosControl.Domain.csproj", "{2D67FA02-722C-413B-B88F-7D014AC1B563}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GastosControl.Application", "..\GastosControl.Application\GastosControl.Application.csproj", "{A3E224D3-8601-D41A-4585-65C60975C6E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GastosControl.Application", "..\GastosControl.Application\GastosControl.Application.csproj", "{6CDE968A-ACE4-4D32-AC61-C4D0F04DF6BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GastosControl.Domain", "..\GastosControl.Domain\GastosControl.Domain.csproj", "{EC451ABB-D7F1-1CBD-E423-5C1112D66029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GastosControl.Infrastructure", "..\GastosControl.Infrastructure\GastosControl.Infrastructure.csproj", "{A01B15F4-3061-4399-9F7F-28A136C6E364}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GastosControl.Infrastructure", "..\GastosControl.Infrastructure\GastosControl.Infrastructure.csproj", "{59E0FB83-AF12-2929-158E-837B11592E15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,18 @@ Global
 		{36302972-B032-495E-8949-69D36A08C7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36302972-B032-495E-8949-69D36A08C7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36302972-B032-495E-8949-69D36A08C7DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D67FA02-722C-413B-B88F-7D014AC1B563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D67FA02-722C-413B-B88F-7D014AC1B563}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D67FA02-722C-413B-B88F-7D014AC1B563}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D67FA02-722C-413B-B88F-7D014AC1B563}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CDE968A-ACE4-4D32-AC61-C4D0F04DF6BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CDE968A-ACE4-4D32-AC61-C4D0F04DF6BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CDE968A-ACE4-4D32-AC61-C4D0F04DF6BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CDE968A-ACE4-4D32-AC61-C4D0F04DF6BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A01B15F4-3061-4399-9F7F-28A136C6E364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A01B15F4-3061-4399-9F7F-28A136C6E364}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A01B15F4-3061-4399-9F7F-28A136C6E364}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A01B15F4-3061-4399-9F7F-28A136C6E364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3E224D3-8601-D41A-4585-65C60975C6E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3E224D3-8601-D41A-4585-65C60975C6E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3E224D3-8601-D41A-4585-65C60975C6E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3E224D3-8601-D41A-4585-65C60975C6E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC451ABB-D7F1-1CBD-E423-5C1112D66029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC451ABB-D7F1-1CBD-E423-5C1112D66029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC451ABB-D7F1-1CBD-E423-5C1112D66029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC451ABB-D7F1-1CBD-E423-5C1112D66029}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59E0FB83-AF12-2929-158E-837B11592E15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59E0FB83-AF12-2929-158E-837B11592E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59E0FB83-AF12-2929-158E-837B11592E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59E0FB83-AF12-2929-158E-837B11592E15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
