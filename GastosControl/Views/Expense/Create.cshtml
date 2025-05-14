@@ -4,7 +4,12 @@
 }
 
 <h2>Registrar Gasto</h2>
-<div asp-validation-summary="All" class="alert alert-danger"></div>
+
+@if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+{
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
+}
+
 
 <form asp-action="Create" method="post">
     <div class="form-group">
