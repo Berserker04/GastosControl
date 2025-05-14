@@ -24,6 +24,11 @@ namespace GastosControl.Application.Services
 
         public async Task AddAsync(ExpenseHeader header, List<ExpenseDetail> details)
         {
+            if (details == null || details.Count == 0)
+            {
+                throw new InvalidOperationException("Debe registrar al menos un detalle del gasto.");
+            }
+
             this.ValidateDuplicate(details);
             await this.ValidateExceededBudget(header, details);
 

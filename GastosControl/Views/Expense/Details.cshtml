@@ -32,8 +32,14 @@
         {
             <tr>
                 <td>@d.ExpenseTypeId</td>
-                <td>@d.Amount:C</td>
+                <td>@d.Amount.ToString("C")</td>
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <th>Total</th>
+            <th>@Model.Details.Sum(d => d.Amount).ToString("C")</th>
+        </tr>
+    </tfoot>
 </table>

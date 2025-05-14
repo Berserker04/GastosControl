@@ -34,8 +34,7 @@ namespace GastosControl.Controllers
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null) return RedirectToAction("Login", "Auth");
 
-            ViewBag.MonetaryFundId = new SelectList(_context.MonetaryFunds.Where(f => f.UserId == userId), "Id", "Name");
-            ViewBag.ExpenseTypes = new SelectList(_context.ExpenseTypes, "Id", "Name");
+            LoadSelectLists((int)userId);
 
             var model = new ExpenseFormViewModel
             {
@@ -84,6 +83,11 @@ namespace GastosControl.Controllers
             catch (InvalidOperationException ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
+
+                if (model.Details == null || model.Details.Count == 0)
+                {
+                    model.Details = new List<ExpenseDetailInput> { new ExpenseDetailInput() };
+                }
 
                 LoadSelectLists((int)userId);
                 return View(model);

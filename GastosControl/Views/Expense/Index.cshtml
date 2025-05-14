@@ -28,7 +28,7 @@
                 <td>@item.MonetaryFundId</td>
                 <td>@item.CommerceName</td>
                 <td>@item.DocumentType</td>
-                <td>@item.Details.Sum(d => d.Amount):C</td>
+                <td>@item.Details.Sum(d => d.Amount).ToString("C")</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>

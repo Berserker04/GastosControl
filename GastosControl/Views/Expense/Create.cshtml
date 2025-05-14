@@ -43,15 +43,42 @@
 
     <hr />
     <h4>Detalles del Gasto</h4>
-    <div id="details-container">
+
+    <div id="detalles-container">
         @for (int i = 0; i < Model.Details.Count; i++)
         {
-            <div class="mb-2 border p-2">
-                <select asp-for="Details[@i].ExpenseTypeId" class="form-control" asp-items="ViewBag.ExpenseTypes"></select>
-                <input asp-for="Details[@i].Amount" class="form-control mt-1" placeholder="Monto" />
+            <div class="detalle-item mb-3 border p-3 rounded">
+                <div class="form-group">
+                    <label>Tipo de Gasto</label>
+                    <select asp-for="Details[@i].ExpenseTypeId" class="form-control" asp-items="ViewBag.ExpenseTypes"></select>
+                </div>
+                <div class="form-group">
+                    <label>Monto</label>
+                    <input type="number" asp-for="Details[@i].Amount" class="form-control" />
+                </div>
+                <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeDetalle(this)">Eliminar</button>
             </div>
         }
     </div>
 
+    <button type="button" class="btn btn-secondary mt-3" onclick="addDetalle()">+ Agregar Detalle</button>
+
+
     <button type="submit" class="btn btn-primary mt-3">Guardar</button>
 </form>
+
+<script>
+    let detalleIndex = @Model.Details.Count;
+    let selectTemplate = "";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const firstSelect = document.querySelector('.detalle-item select');
+        if (firstSelect) {
+            selectTemplate = firstSelect.innerHTML;
+        }
+    });
+
+</script>
+@section Scripts {
+    <script src="~/js/Expense.js" asp-append-version="true"></script>
+}
