@@ -58,8 +58,12 @@ namespace GastosControl.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] ExpenseType expenseType)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return RedirectToAction("Login", "Auth");
+
             if (ModelState.IsValid)
             {
+                expenseType.UserId = userId.Value;
                 _context.Add(expenseType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

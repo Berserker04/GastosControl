@@ -10,7 +10,9 @@ namespace GastosControl.Domain.Entities
     {
         public int Id { get; set; }
         public required string Name { get; set; }
+        public int UserId { get; set; }
 
-        public string Code => "ET" + Id.ToString("D4"); // Código automático
+
+        public string Code => "ET" + Id.ToString("D4");
     }
 }

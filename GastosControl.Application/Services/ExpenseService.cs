@@ -1,4 +1,5 @@
-﻿using GastosControl.Application.Interfaces;
+﻿using GastosControl.Application.DTOs;
+using GastosControl.Application.Interfaces;
 using GastosControl.Domain.Entities;
 using GastosControl.Domain.Interfaces;
 using System.Reflection.PortableExecutable;
@@ -97,5 +98,27 @@ namespace GastosControl.Application.Services
             }
 
         }
+
+        public async Task<List<BudgetMovementDto>> GetMonthlyBudgetSummaryAsync(int userId, int month, int year)
+        {
+            var typeExpense = await _queries.GetExpenseTypesAsync(userId);
+            var resume = new List<BudgetMovementDto>();
+
+            foreach (var type in typeExpense)
+            {
+                var budget = await _queries.GetUserBudgetAsync(userId, type.Id, month, year);
+                var execute = await _queries.GetExecutedAmountAsync(userId, type.Id, month, year);
+
+                resume.Add(new BudgetMovementDto
+                {
+                    ExpenseTypeName = type.Name,
+                    Budget = budget?.Amount ?? 0,
+                    Executed = execute
+                });
+            }
+
+            return resume;
+        }
+
     }
 }

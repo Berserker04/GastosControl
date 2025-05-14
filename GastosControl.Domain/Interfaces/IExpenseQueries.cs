@@ -12,5 +12,6 @@ namespace GastosControl.Domain.Interfaces
         Task<UserBudget?> GetUserBudgetAsync(int userId, int expenseTypeId, int month, int year);
         Task<decimal> GetExecutedAmountAsync(int userId, int expenseTypeId, int month, int year);
         Task<decimal> GetBalanceAsync(int monetaryFundId);
+        Task<List<ExpenseType>> GetExpenseTypesAsync(int userId);
     }
 }

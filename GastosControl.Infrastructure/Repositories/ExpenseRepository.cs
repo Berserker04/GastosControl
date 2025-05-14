@@ -105,6 +105,12 @@ namespace GastosControl.Infrastructure.Repositories
             }
             return fondo.Balance;
         }
+        public async Task<List<ExpenseType>> GetExpenseTypesAsync(int userId)
+        {
+            return await _context.ExpenseTypes
+                .Where(et => et.UserId == userId)
+                .ToListAsync();
+        }
 
     }
 }
