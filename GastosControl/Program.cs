@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using GastosControl.Infrastructure.Persistence;
+using GastosControl.Application.Services;
+using GastosControl.Domain.Interfaces;
+using GastosControl.Infrastructure.Repositories;
 
 namespace GastosControl
 {
@@ -14,6 +17,10 @@ namespace GastosControl
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IExpenseTypeRepository, ExpenseTypeRepository>();
+            builder.Services.AddScoped<IExpenseTypeService, ExpenseTypeService>();
+
 
             var app = builder.Build();
 
