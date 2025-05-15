@@ -1,35 +1,36 @@
-using System.Diagnostics;
+using GastosControl.Application.Interfaces;
 using GastosControl.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace GastosControl.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IExpenseService _expenseService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IExpenseService expenseService)
         {
-            _logger = logger;
+            _expenseService = expenseService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "Auth");
-            return View();
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            var now = DateTime.Now;
+            var data = await _expenseService.GetMonthlyBudgetSummaryAsync(userId.Value, now.Month, now.Year);
+            ViewBag.GraphData = JsonConvert.SerializeObject(data, new JsonSerializerSettings
+            {
+                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+            });
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+            return View();
         }
     }
+
 }

@@ -1,8 +1,46 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
+    var chartData = ViewBag.GraphData as string;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2 class="mb-4">Resumen de Presupuesto vs Ejecución - @DateTime.Now</h2>
+
+<canvas id="presupuestoChart" height="100"></canvas>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const chartData = @Html.Raw(chartData);
+        const labels = chartData.map(item => item.expenseTypeName);
+        const presupuesto = chartData.map(item => item.budget);
+        const ejecutado = chartData.map(item => item.executed);
+
+        const ctx = document.getElementById('presupuestoChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Presupuesto',
+                        data: presupuesto,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)'
+                    },
+                    {
+                        label: 'Ejecutado',
+                        data: ejecutado,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}
