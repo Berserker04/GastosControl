@@ -25,7 +25,7 @@
         {
             <tr>
                 <td>@item.Date.ToShortDateString()</td>
-                <td>@item.MonetaryFundId</td>
+                <td>@item.MonetaryFund.Name - @item.MonetaryFund.Description</td>
                 <td>@item.CommerceName</td>
                 <td>@item.DocumentType</td>
                 <td>@item.Details.Sum(d => d.Amount).ToString("C")</td>

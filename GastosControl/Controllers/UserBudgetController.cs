@@ -54,7 +54,9 @@ namespace GastosControl.Controllers
         // GET: UserBudget/Create
         public IActionResult Create()
         {
-            ViewData["ExpenseTypeId"] = new SelectList(_context.ExpenseTypes, "Id", "Name");
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return RedirectToAction("Login", "Auth");
+            ViewData["ExpenseTypeId"] = new SelectList(_context.ExpenseTypes.Where(f => f.UserId == (int)userId), "Id", "Name");
 
             return View();
         }

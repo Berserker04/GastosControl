@@ -21,6 +21,7 @@ namespace GastosControl.Infrastructure.Repositories
         {
             return await _context.ExpenseHeaders
                 .Where(e => e.UserId == userId)
+                .Include(e => e.MonetaryFund)
                 .Include(e => e.Details)
                 .ToListAsync();
         }

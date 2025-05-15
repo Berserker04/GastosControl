@@ -16,6 +16,7 @@ public class DepositRepository : IDepositRepository
     {
         return await _context.Deposits
             .Where(d => d.UserId == userId)
+            .Include(d => d.MonetaryFund)
             .ToListAsync();
     }
 

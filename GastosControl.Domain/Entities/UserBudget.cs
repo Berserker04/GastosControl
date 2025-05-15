@@ -14,6 +14,6 @@ namespace GastosControl.Domain.Entities
         public int Month { get; set; }
         public int Year { get; set; }
         public decimal Amount { get; set; }
-        public ExpenseType ExpenseType { get; set; } = null!;
+        public ExpenseType? ExpenseType { get; set; } = null!;
     }
 }

@@ -97,7 +97,7 @@ namespace GastosControl.Controllers
         private void LoadSelectLists(int userId)
         {
             ViewBag.MonetaryFundId = new SelectList(_context.MonetaryFunds.Where(f => f.UserId == userId), "Id", "Name");
-            ViewBag.ExpenseTypes = new SelectList(_context.ExpenseTypes, "Id", "Name");
+            ViewBag.ExpenseTypes = new SelectList(_context.ExpenseTypes.Where(f => f.UserId == userId), "Id", "Name");
         }
 
         public async Task<IActionResult> Details(int id)

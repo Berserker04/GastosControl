@@ -12,7 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Usuario</th>
             <th>Fecha</th>
             <th>Fondo Monetario</th>
             <th>Monto</th>
@@ -23,13 +22,10 @@
         @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MonetaryFundId)
+                    @Html.DisplayFor(modelItem => item.MonetaryFund.Name) - @Html.DisplayFor(modelItem => item.MonetaryFund.Description)
             </td>
             <td>
                 @item.Amount.ToString("C")

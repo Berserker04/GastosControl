@@ -13,9 +13,6 @@
     <thead>
         <tr>
             <th>
-                Usuario
-            </th>
-            <th>
                 Tipo de gasto
             </th>
             <th>
@@ -31,10 +28,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpenseTypeId)
+                    @Html.DisplayFor(modelItem => item.ExpenseType.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Year)/@Html.DisplayFor(modelItem => item.Month)
