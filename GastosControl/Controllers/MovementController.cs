@@ -18,6 +18,8 @@ public class MovementController : Controller
     [HttpPost]
     public async Task<IActionResult> Result(DateTime from, DateTime to)
     {
+        to = to.Date.AddDays(1).AddTicks(-1);
+
         var movimientos = await _service.GetMovementsAsync(from, to);
         ViewBag.From = from.ToShortDateString();
         ViewBag.To = to.ToShortDateString();

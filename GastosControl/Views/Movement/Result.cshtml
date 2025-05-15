@@ -27,10 +27,16 @@ else
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                var rowStyle = item.Type == "Depósito"
+                ? "background-color: #f3fdf8;" // verde muy tenue
+                : "background-color: #fdfdfd;"; // blanco-gris
+
+                var icon = item.Type == "Depósito" ? "💰" : "🧾";
+
+                <tr style="@rowStyle">
                     <td>@item.Date.ToString("dd/MM/yyyy")</td>
                     <td>@item.User</td>
-                    <td>@item.Type</td>
+                    <td>@icon @item.Type</td>
                     <td>@item.Fund</td>
                     <td>@item.FundDescription</td>
                     <td>@item.Description</td>
@@ -38,5 +44,7 @@ else
                 </tr>
             }
         </tbody>
+
+
     </table>
 }

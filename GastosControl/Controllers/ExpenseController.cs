@@ -63,7 +63,7 @@ namespace GastosControl.Controllers
                 var header = new ExpenseHeader
                 {
                     UserId = userId.Value,
-                    Date = model.Date,
+                    Date = DateTime.Now,
                     MonetaryFundId = model.MonetaryFundId,
                     CommerceName = model.CommerceName,
                     DocumentType = model.DocumentType,
