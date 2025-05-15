@@ -38,6 +38,10 @@ namespace GastosControl
             builder.Services.AddScoped<IDepositRepository, DepositRepository>();
             builder.Services.AddScoped<IDepositService, DepositService>();
 
+            builder.Services.AddScoped<IMovementRepository, MovementRepository>();
+            builder.Services.AddScoped<IMovementService, MovementService>();
+
+
             builder.Services.AddSession();
 
             var app = builder.Build();

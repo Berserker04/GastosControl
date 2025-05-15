@@ -15,6 +15,7 @@ namespace GastosControl.Domain.Entities
         public int MonetaryFundId { get; set; }
         [Required]
         public decimal Amount { get; set; }
+        public User? User { get; set; }
         public MonetaryFund? MonetaryFund { get; set; } = null!;
     }
 }
