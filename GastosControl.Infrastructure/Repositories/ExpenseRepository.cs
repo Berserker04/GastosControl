@@ -1,4 +1,5 @@
-﻿using GastosControl.Domain.Entities;
+﻿using GastosControl.Domain.DTO;
+using GastosControl.Domain.Entities;
 using GastosControl.Domain.Interfaces;
 using GastosControl.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -112,5 +113,48 @@ namespace GastosControl.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<TopGastoDto>> GetTop3GastosByUserAndMonth(int userId, int month, int year)
+        {
+            return await _context.ExpenseDetails
+                .Where(d => d.Header.UserId == userId &&
+                            d.Header.Date.Month == month &&
+                            d.Header.Date.Year == year)
+                .GroupBy(d => d.ExpenseTypeId)
+                .Select(g => new
+                {
+                    ExpenseTypeId = g.Key,
+                    Total = g.Sum(d => d.Amount)
+                })
+                .OrderByDescending(g => g.Total)
+                .Take(3)
+                .Join(_context.ExpenseTypes,
+                      g => g.ExpenseTypeId,
+                      t => t.Id,
+                      (g, t) => new TopGastoDto
+                      {
+                          Name = t.Name,
+                          Amount = g.Total
+                      })
+                .ToListAsync();
+        }
+
+        public async Task<decimal> GetTotalDepositsAsync(int userId, int month, int year)
+        {
+            return await _context.Deposits
+                .Where(d => d.UserId == userId &&
+                            d.Date.Month == month &&
+                            d.Date.Year == year)
+                .SumAsync(d => d.Amount);
+        }
+
+        public async Task<decimal> GetTotalExpensesAsync(int userId, int month, int year)
+        {
+            return await _context.ExpenseHeaders
+                .Where(h => h.UserId == userId &&
+                            h.Date.Month == month &&
+                            h.Date.Year == year)
+                .SelectMany(h => h.Details)
+                .SumAsync(d => d.Amount);
+        }
     }
 }

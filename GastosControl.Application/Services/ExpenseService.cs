@@ -1,4 +1,5 @@
-﻿using GastosControl.Application.DTOs;
+﻿using GastosControl.Domain.DTO;
+using GastosControl.Application.DTOs;
 using GastosControl.Application.Interfaces;
 using GastosControl.Domain.Entities;
 using GastosControl.Domain.Interfaces;
@@ -118,6 +119,21 @@ namespace GastosControl.Application.Services
             }
 
             return resume;
+        }
+
+        public async Task<List<TopGastoDto>> GetTop3GastosByUserAndMonth(int userId, int month, int year)
+        {
+            return await _queries.GetTop3GastosByUserAndMonth(userId, month, year);
+        }
+
+        public async Task<decimal> GetTotalDepositsAsync(int userId, int month, int year)
+        {
+            return await _queries.GetTotalDepositsAsync(userId, month, year);
+        }
+
+        public async Task<decimal> GetTotalExpensesAsync(int userId, int month, int year)
+        {
+            return await _queries.GetTotalExpensesAsync(userId, month, year);
         }
 
     }
