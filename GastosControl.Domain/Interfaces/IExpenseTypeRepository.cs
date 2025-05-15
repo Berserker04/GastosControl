@@ -9,7 +9,7 @@ namespace GastosControl.Domain.Interfaces
 {
     public interface IExpenseTypeRepository
     {
-        Task<List<ExpenseType>> GetAllAsync();
+        Task<List<ExpenseType>> GetAllAsync(int userId);
         Task<ExpenseType?> GetByIdAsync(int id);
         Task AddAsync(ExpenseType expenseType);
         Task UpdateAsync(ExpenseType expenseType);

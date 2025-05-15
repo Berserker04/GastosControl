@@ -19,9 +19,11 @@ namespace GastosControl.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<ExpenseType>> GetAllAsync()
+        public async Task<List<ExpenseType>> GetAllAsync(int userId)
         {
-            return await _context.ExpenseTypes.ToListAsync();
+            return await _context.ExpenseTypes
+                .Where(e => e.UserId == userId)
+                .ToListAsync();
         }
 
         public async Task<ExpenseType?> GetByIdAsync(int id)

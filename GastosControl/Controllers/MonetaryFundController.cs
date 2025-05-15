@@ -1,4 +1,6 @@
-﻿using GastosControl.Domain.Entities;
+﻿using GastosControl.Application.Interfaces;
+using GastosControl.Application.Services;
+using GastosControl.Domain.Entities;
 using GastosControl.Helpers;
 using GastosControl.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -14,17 +16,21 @@ namespace GastosControl.Controllers
     [AuthorizeSession]
     public class MonetaryFundController : Controller
     {
+        private readonly IMonetaryFundService _repository;
         private readonly ApplicationDbContext _context;
 
-        public MonetaryFundController(ApplicationDbContext context)
+        public MonetaryFundController(IMonetaryFundService repository, ApplicationDbContext context)
         {
+            _repository = repository;
             _context = context;
         }
 
         // GET: MonetaryFund
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MonetaryFunds.ToListAsync());
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return RedirectToAction("Login", "Auth");
+            return View(await _repository.GetByUserIdAsync((int)userId));
         }
 
         // GET: MonetaryFund/Details/5

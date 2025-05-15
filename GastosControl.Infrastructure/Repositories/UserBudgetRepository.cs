@@ -18,7 +18,7 @@ namespace GastosControl.Infrastructure.Repositories
         {
             return await _context.UserBudgets
                 .Where(b => b.UserId == userId)
-                .Include(b => b.ExpenseTypeId)
+                .Include(b => b.ExpenseType)
                 .ToListAsync();
         }
 

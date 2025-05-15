@@ -1,21 +1,27 @@
 ﻿using GastosControl.Application.Interfaces;
+using GastosControl.Application.Services;
 using GastosControl.Domain.Entities;
+using GastosControl.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GastosControl.Controllers
 {
     public class BudgetController : Controller
     {
+        private readonly IUserBudgetService _repository;
         private readonly IExpenseService _expenseService;
+        private readonly ApplicationDbContext _context;
 
-        public BudgetController(IExpenseService expenseService)
+        public BudgetController(IExpenseService expenseService, IUserBudgetService repository, ApplicationDbContext context)
         {
+            _repository = repository;
+            _context = context;
             _expenseService = expenseService;
         }
-
+        
         public IActionResult Index()
         {
-            return View(); // Vista con formulario para seleccionar mes/año
+            return View();
         }
 
         [HttpPost]

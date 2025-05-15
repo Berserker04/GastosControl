@@ -17,8 +17,8 @@ namespace GastosControl.Application.Services
             _repository = repository;
         }
 
-        public async Task<List<ExpenseType>> GetAllAsync()
-            => await _repository.GetAllAsync();
+        public async Task<List<ExpenseType>> GetAllAsync(int userId)
+            => await _repository.GetAllAsync(userId);
 
         public async Task<ExpenseType?> GetByIdAsync(int id)
             => await _repository.GetByIdAsync(id);

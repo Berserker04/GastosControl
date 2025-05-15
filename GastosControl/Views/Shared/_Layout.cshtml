@@ -21,17 +21,17 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @{
+                        var userRole = Context.Session.GetString("UserRole");
+                    }
                     <ul class="navbar-nav flex-grow-1">
                         @if (!string.IsNullOrEmpty(userName))
-                {
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="ExpenseType" asp-action="Index">Tipos de Gasto</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Usuarios</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="MonetaryFund" asp-action="Index">Fondos monetarios</a>
@@ -48,9 +48,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Budget" asp-action="Index">Mis movimientos</a>
                         </li>
+                        @if (userRole == "Admin")
+                        {
                         <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Movement" asp-action="Index">Movimientos de usuarios</a>
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Usuarios</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Movement" asp-action="Index">Movimientos de usuarios</a>
+                        </li>
+                            }
                         }
                     </ul>
                 </div>

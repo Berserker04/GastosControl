@@ -1,4 +1,6 @@
-﻿using GastosControl.Domain.Entities;
+﻿using GastosControl.Application.Interfaces;
+using GastosControl.Application.Services;
+using GastosControl.Domain.Entities;
 using GastosControl.Helpers;
 using GastosControl.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -14,17 +16,21 @@ namespace GastosControl.Controllers
     [AuthorizeSession]
     public class UserBudgetController : Controller
     {
+        private readonly IUserBudgetService _repository;
         private readonly ApplicationDbContext _context;
 
-        public UserBudgetController(ApplicationDbContext context)
+        public UserBudgetController(IUserBudgetService repository, ApplicationDbContext context)
         {
+            _repository = repository;
             _context = context;
         }
 
         // GET: UserBudget
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserBudgets.ToListAsync());
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return RedirectToAction("Login", "Auth");
+            return View(await _repository.GetByUserIdAsync((int)userId));
         }
 
         // GET: UserBudget/Details/5

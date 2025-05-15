@@ -1,4 +1,5 @@
-﻿using GastosControl.Domain.Entities;
+﻿using GastosControl.Application.Services;
+using GastosControl.Domain.Entities;
 using GastosControl.Helpers;
 using GastosControl.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -14,17 +15,21 @@ namespace GastosControl.Controllers
     [AuthorizeSession]
     public class ExpenseTypeController : Controller
     {
+        private readonly IExpenseTypeService _repository;
         private readonly ApplicationDbContext _context;
 
-        public ExpenseTypeController(ApplicationDbContext context)
+        public ExpenseTypeController(IExpenseTypeService repository, ApplicationDbContext context)
         {
+            _repository = repository;
             _context = context;
         }
 
         // GET: ExpenseType
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ExpenseTypes.ToListAsync());
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return RedirectToAction("Login", "Auth");
+            return View(await _repository.GetAllAsync((int)userId));
         }
 
         // GET: ExpenseType/Details/5
